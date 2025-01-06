@@ -1,8 +1,10 @@
-use serde::{Deserialize};
+use serde::Deserialize;
 use bincode;
 
 use rccn_usr::service::{CommandParseError, CommandParseResult, ServiceCommand};
 use satrs::spacepackets::ecss::{tc::PusTcReader, PusPacket};
+
+const FILE_NAME_LENGTH: usize = 8;
 
 #[derive(Debug, Deserialize)]
 pub struct BsdiffCreateCommand {
@@ -28,7 +30,7 @@ fn fixed_length_string<'de, D>(deserializer: D) -> Result<String, D::Error>
 where
     D: serde::Deserializer<'de>,	
 {
-    let bytes: [u8; 8] = serde::de::Deserialize::deserialize(deserializer)?;
+    let bytes: [u8; FILE_NAME_LENGTH] = serde::de::Deserialize::deserialize(deserializer)?;
     let s = String::from_utf8(bytes.to_vec()).map(|s| s.trim_matches('\0').to_string()).map_err(serde::de::Error::custom)?;
     Ok(s)
 }
@@ -62,11 +64,16 @@ impl ServiceCommand for BsdiffCommand {
 
 
 
-// Test the deserialization of BsdiffCommand from PusTcReader
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use crate::bsdiff_service::command::BsdiffCreateCommand;
+
     #[test]
     fn test_bsdiff_command_deserialization() {
+        let data = [97, 0, 0, 0, 0, 0, 0, 0, 101, 102, 103, 104, 105, 106, 99, 107, 98, 99, 100, 0, 0, 0, 0, 0];
+        let cmd: BsdiffCreateCommand = bincode::deserialize(&data).unwrap();
+        assert_eq!(cmd.file_1, "a");
+        assert_eq!(cmd.file_2, "efghijck");
+        assert_eq!(cmd.output_file, "bcd");
     }
 }

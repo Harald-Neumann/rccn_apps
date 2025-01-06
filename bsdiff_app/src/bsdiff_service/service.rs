@@ -4,7 +4,7 @@ use qbsdiff::{Bsdiff, Bspatch};
 use std::fs;
 
 use crate::bsdiff_service::command::BsdiffCommand;
-use rccn_usr::{pus::parameter_management_service::service, service::{AcceptanceResult, AcceptedTc, CommandExecutionStatus, PusService, SubserviceTmData}};
+use rccn_usr::service::{AcceptanceResult, AcceptedTc, PusService, SubserviceTmData};
 
 pub struct BsdiffService {}
 
