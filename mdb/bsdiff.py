@@ -41,6 +41,16 @@ createCommand = Command(
             max_length=string_length,
             encoding=StringEncoding(string_length * 8),
         ),
+        EnumeratedArgument( # This mainly serves as an exercise to see how to use enumerated arguments and how to send tm as a response
+            name="send-patch",
+            short_description="Wether the content of the patch file should be send to the ground",
+            choices=[
+                (1, "Yes"),
+                (2, "No"),
+            ],
+            default="Yes",
+            encoding=IntegerEncoding(8),
+        )
     ]
 )
 
