@@ -1,0 +1,13 @@
+[package]
+name = "diffing_the_bs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.95"
+satrs = "0.2.1"
+rccn_usr = { git = "https://gitlab.com/rccn/rccn-userspace-ws", package = "rccn_usr" }
+bincode = "1.3.3"
+serde = {version = "1.0.217", features = ["derive"]}
+serde_bytes = "0.11.15"
+qbsdiff = "1.4.2"
