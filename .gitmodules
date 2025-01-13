@@ -1,0 +1,4 @@
+[submodule "digipeater_app"]
+	path = digipeater_app
+	url = https://github.com/Harald-Neumann/digipeater
+	branch = main
