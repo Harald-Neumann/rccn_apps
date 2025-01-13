@@ -7,6 +7,7 @@ use crate::bsdiff_service::command::{BsdiffCommand, BsdiffCreateCommandResponse}
 use rccn_usr::service::{AcceptanceResult, AcceptedTc, PusService, SubserviceTmData};
 
 use super::command::BsdiffCreateCommand;
+use crate::bsdiff_service::telemetry::CreateResponse;
 
 pub struct BsdiffService {}
 
@@ -41,7 +42,8 @@ impl PusService for BsdiffService {
         println!("Handling");
         match cmd {
             BsdiffCommand::Create(cmd) if cmd.response == BsdiffCreateCommandResponse::Yes => tc.handle_with_tm(|| {
-                Ok::<SubserviceTmData, io::Error>(SubserviceTmData{subservice: 1, data: Self::handle_create(cmd)?})
+                let patch_data = Self::handle_create(cmd)?;
+                Ok::<SubserviceTmData, io::Error>(SubserviceTmData{subservice: 1, data: CreateResponse{length: patch_data.len() as u32, data: patch_data}.into()})
             }),
             BsdiffCommand::Create(cmd) => tc.handle( || {
                 Self::handle_create(cmd).is_ok()

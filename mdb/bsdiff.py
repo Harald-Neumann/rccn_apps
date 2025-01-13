@@ -81,6 +81,20 @@ patchCommand = Command(
     ]
 )
 
+cc = Container(
+    system=service,
+    name="BsDiff-CreateResponse",
+    base="/PUS/pus-tm",
+    entries=[
+        ParameterEntry(
+            parameter=BinaryParameter(
+                name="patch-file",
+                encoding=BinaryEncoding(length_bits=32),
+                system=service,
+            )
+        )
+    ]
+)
 
 
 print(service.dumps())
