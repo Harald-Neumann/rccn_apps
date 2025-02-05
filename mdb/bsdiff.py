@@ -93,7 +93,17 @@ cc = Container(
                 system=service,
             )
         )
-    ]
+    ],
+    condition=AndExpression(
+        EqExpression(
+            ref="/PUS/pus-tm/type",
+            value=131
+        ),
+        EqExpression(
+            ref="/PUS/pus-tm/subtype",
+            value=1
+        )
+    )
 )
 
 
